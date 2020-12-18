@@ -11,6 +11,14 @@
     <title>DoAndDoneList</title>
   </head>
   <style>
+    
+
+    .col-md-7{
+      display:block;
+    }
+    .col-lg-5{
+      display: inline-block ;
+    }
       #title1{
           color:white;
       }
@@ -38,7 +46,31 @@
         font-size:50px;
         color:green;
 
+
       }
+      @media only screen and (max-width: 700px) {
+        .dis{
+        display:block;
+        }
+        .hidn{
+          display:none;
+        }
+        .hid{
+          
+          margin-left:-3 %;
+
+        }
+      }
+      @media only screen and (min-width: 1020px) {
+        .dis{
+        display:inline-block;
+        }
+        .hid{
+          display:none;
+        }
+        
+      }
+
   </style>
   <body>
       <!-- Image and text -->
@@ -51,7 +83,7 @@
           </svg>
         <b  id="color">ToDos List</b>
     </a>
-    <a class="navbar-brand" href="#">
+    <a class="hidn navbar-brand" href="#">
 
         <svg xmlns="http://www.w3.org/2000/svg"  alt="" width="80" height="74"  fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -68,7 +100,7 @@
   
   </div>
   <div class="container">
-  <div class="d-inline-block col-5">
+  <div class="dis col-sm-12 col-lg-5">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="text-white form-label">Title</label>
     <input type="email" class="form-control" id="title" aria-describedby="emailHelp">
@@ -124,10 +156,18 @@
 
 
 
+<nav class="hid navbar navbar-light bg-light">
+<a class="navbar-brand" href="#">
 
+  <svg xmlns="http://www.w3.org/2000/svg"  alt="" width="80" height="74"  fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+<path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+<path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h10a1.5 1.5 0 0 0 1.5-1.5V8a.5.5 0 0 0-1 0v5a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5h8a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 3v10z"/>
+</svg>
+<b id="colors">Done List</b>
+</a>
+</nav>
 
-
-<div class="d-inline-block col-5">
+<div class="dis col-sm-12 col-lg-5">
     <form>
   <div class="mb-3">
     <label for="exampleInputEmail2" class="text-white form-label">Title</label>
@@ -220,7 +260,7 @@
                   <th scope="row">${c+1}</th>
                   <td>${itemjasonarr[ele][0]}</td>
                   <td>${itemjasonarr[ele][1]}</td>
-                  <td><button onclick="dlt(${c})" type="button" class="btn btn-warning">Delete</button></td>
+                  <td><button onclick="dlt(${c})" type="button" class="btn btn-warning">Delete</button> <button onclick="done(${c})" type="button" class="btn btn-success">move to done</button></td>
                `
                c+=1
            }
@@ -235,6 +275,19 @@
         itemjasonarr.splice(index,1)
         localStorage.setItem('itemsJason',JSON.stringify(itemjasonarr))
         update()
+       }
+
+       function done(index){
+        itemjasonarrstr=localStorage.getItem('itemsJason')
+        itemjasonarr=JSON.parse(itemjasonarrstr)
+        itemjasonarrstr1=localStorage.getItem('itemsJason1')
+        itemjasonarr1=JSON.parse(itemjasonarrstr1)
+        itemjasonarr1.push(itemjasonarr[index])
+        itemjasonarr.splice(index,1)
+        localStorage.setItem('itemsJason1',JSON.stringify(itemjasonarr1))
+        localStorage.setItem('itemsJason',JSON.stringify(itemjasonarr))
+        update()
+        update1()
        }
 
 
@@ -294,10 +347,10 @@
                   <th scope="row">${c+1}</th>
                   <td>${itemjasonarr1[ele][0]}</td>
                   <td>${itemjasonarr1[ele][1]}</td>
-                  <td><button onclick="dlt1(${c})" type="button" class="btn btn-warning">Delete</button></td>
+                  <td><button onclick="dlt1(${c})" type="button" class="btn btn-warning">Delete</button> <button onclick="uptitle(${c})" type="button" class="btn btn-primary">update</button></td>
                `
                c+=1
-           }
+          }
         tbdy1.innerHTML=str
 
        }
@@ -306,6 +359,15 @@
        function dlt1(index){
         itemjasonarrstr1=localStorage.getItem('itemsJason1')
         itemjasonarr1=JSON.parse(itemjasonarrstr1)
+        itemjasonarr1.splice(index,1)
+        localStorage.setItem('itemsJason1',JSON.stringify(itemjasonarr1))
+        update1()
+       }
+       function uptitle(index){
+        itemjasonarrstr1=localStorage.getItem('itemsJason1')
+        itemjasonarr1=JSON.parse(itemjasonarrstr1)
+        document.getElementById("titl1").value=itemjasonarr1[index][0]
+        document.getElementById("desc1").value=itemjasonarr1[index][1]
         itemjasonarr1.splice(index,1)
         localStorage.setItem('itemsJason1',JSON.stringify(itemjasonarr1))
         update1()
